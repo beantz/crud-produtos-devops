@@ -18,7 +18,10 @@ export class Preco {
         
         return new Preco(centavos);
     }
-    get valor(): number { return this._centavos / 100; }
+    
+    get valor(): number { 
+        return this._centavos / 100; 
+    }
 
     somar(outro: Preco): Preco {
         return new Preco(this._centavos + outro._centavos);

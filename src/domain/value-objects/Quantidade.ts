@@ -1,4 +1,4 @@
-import { ValidationError } from '../errors';
+import { ValidationError } from "../errors/ValidationError.js";
 
 export class Quantidade {
   private readonly _valor: number;
