@@ -63,7 +63,6 @@ export class Produto {
   get criadoEm(): Date { return new Date(this._criadoEm); }
   get atualizadoEm(): Date { return new Date(this._atualizadoEm); }
 
-  // ============ Comportamentos de negócio ============
   renomear(novoNome: string): void {
     const nomeValidado = Produto.validarNome(novoNome);
     if (nomeValidado === this._nome) return;
