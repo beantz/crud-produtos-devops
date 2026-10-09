@@ -2,6 +2,7 @@ import { Produto } from './Produto.js';
 import { Quantidade } from '../value-objects/Quantidade.js';
 import { ValidationError } from "../errors/ValidationError.js";
 import { Preco } from '../value-objects/Preco.js';
+import { describe, it, expect } from 'vitest';
 
 const dadosValidos = () => ({
   id: 'p1',

@@ -1,5 +1,6 @@
 import { Quantidade } from '../value-objects/Quantidade.js';
 import { ValidationError } from "../errors/ValidationError.js";
+import { describe, it, expect } from 'vitest';
 
 describe('Quantidade', () => {
   describe('criar', () => {
