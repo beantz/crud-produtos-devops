@@ -1,5 +1,5 @@
 import { Produto } from '../../domain/entities/Produto.js';
-import type { ProdutoDTO } from './ProdutoDTO.js';
+import type { ProdutoDTO } from '../dtos/ProdutoDTO.js';
 
 export class ProdutoMapper {
   static paraDTO(produto: Produto): ProdutoDTO {
