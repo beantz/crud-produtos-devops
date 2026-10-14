@@ -5,9 +5,9 @@ export interface OpcoesListagem {
   deslocamento?: number;
 }
 
-export interface FiltroListagem {
-  nome?: string;
-  apenasDisponiveis?: boolean;
+interface FiltroListagem {
+  nome?: string | undefined;
+  apenasDisponiveis?: boolean | undefined;
   limite: number;
   deslocamento: number;
 }
