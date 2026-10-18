@@ -1,4 +1,4 @@
-import type { ProdutoRepository, OpcoesListagem } from '../../application/interfaces/ProdutoRepository.js';
+import type { ProdutoRepository, OpcoesListagem, FiltroListagem, ResultadoListagem } from '../../application/interfaces/ProdutoRepository.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
 import { NotFoundError } from "../../domain/errors/NotFoundError.js";
 import { Produto } from '../../domain/entities/Produto.js';
@@ -43,6 +43,24 @@ export class InMemoryProdutoRepository implements ProdutoRepository {
     const fim = limite === undefined ? undefined : deslocamento + limite;
     return this.items.slice(deslocamento, fim);
   }
+
+  async buscarPaginado(f: FiltroListagem): Promise<ResultadoListagem> {
+  let lista = this.items;
+
+  if (f.nome) {
+    const alvo = normalizar(f.nome);
+    lista = lista.filter((p) => normalizar(p.nome).includes(alvo));
+  }
+  if (f.apenasDisponiveis) {
+    lista = lista.filter((p) => p.estaDisponivel());
+  }
+
+  return {
+    total: lista.length,
+    //
+    itens: lista.slice(f.deslocamento, f.deslocamento + f.limite),
+  };
+}
 
   async buscarPorNomeContendo(trecho: string): Promise<Produto[]> {
     const alvo = normalizar(trecho);
