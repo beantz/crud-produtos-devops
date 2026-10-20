@@ -37,25 +37,26 @@ export class InMemoryProdutoRepository implements ProdutoRepository {
   }
 
   async buscarPaginado(f: FiltroListagem): Promise<ResultadoListagem> {
-  let lista = this.items;
+    let lista = this.items;
 
-  if (f.nome) {
-    const alvo = normalizar(f.nome);
-    lista = lista.filter((p) => normalizar(p.nome).includes(alvo));
-  }
-  if (f.apenasDisponiveis) {
-    lista = lista.filter((p) => p.estaDisponivel());
-  }
+    if (f.nome) {
+      const alvo = normalizar(f.nome);
+      lista = lista.filter((p) => normalizar(p.nome).includes(alvo));
+    }
+    if (f.apenasDisponiveis) {
+      lista = lista.filter((p) => p.estaDisponivel());
+    }
 
-  return {
-    total: lista.length,
-    //
-    itens: lista.slice(f.deslocamento, f.deslocamento + f.limite),
-  };
-}
+    return {
+      total: lista.length,
+      //qual indice comeca, pega o indice mais o limite de quantos vai exibir
+      itens: lista.slice(f.deslocamento, f.deslocamento + f.limite),
+    };
+  }
 
   async existeComNome(nome: string, ignorarId?: string): Promise<boolean> {
     const alvo = normalizar(nome);
+    //some testa algo no array satisfaz uma condicao
     return [...this.store.values()].some(
       (p) => p.id !== ignorarId && normalizar(p.nome) === alvo,
     );
@@ -67,7 +68,7 @@ function normalizar(texto: string): string {
   return texto.trim().toLowerCase();
 }
 
-/** Simula o que um banco real faz: o que sai é sempre uma "cópia nova". */
+/**simula o que um banco real faz: o que sai é sempre uma "cópia nova"*/
 function clonar(produto: Produto): Produto {
   return Produto.reconstituir({
     id: produto.id,
