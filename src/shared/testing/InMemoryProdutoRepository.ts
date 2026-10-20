@@ -1,4 +1,4 @@
-import type { ProdutoRepository, OpcoesListagem, FiltroListagem, ResultadoListagem } from '../../application/interfaces/ProdutoRepository.js';
+import type { ProdutoRepository, FiltroListagem, ResultadoListagem } from '../../application/interfaces/ProdutoRepository.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
 import { NotFoundError } from "../../domain/errors/NotFoundError.js";
 import { Produto } from '../../domain/entities/Produto.js';
@@ -36,14 +36,6 @@ export class InMemoryProdutoRepository implements ProdutoRepository {
     return encontrado ? clonar(encontrado) : null;
   }
 
-  /* desestruturacao do objeto, acessar apenas o que precisa
-    {} -> para dar chamada mesmo sem argumento
-  */
-  async listar({ limite, deslocamento = 0 }: OpcoesListagem = {}): Promise<Produto[]> {
-    const fim = limite === undefined ? undefined : deslocamento + limite;
-    return this.items.slice(deslocamento, fim);
-  }
-
   async buscarPaginado(f: FiltroListagem): Promise<ResultadoListagem> {
   let lista = this.items;
 
@@ -61,11 +53,6 @@ export class InMemoryProdutoRepository implements ProdutoRepository {
     itens: lista.slice(f.deslocamento, f.deslocamento + f.limite),
   };
 }
-
-  async buscarPorNomeContendo(trecho: string): Promise<Produto[]> {
-    const alvo = normalizar(trecho);
-    return this.items.filter((p) => normalizar(p.nome).includes(alvo));
-  }
 
   async existeComNome(nome: string, ignorarId?: string): Promise<boolean> {
     const alvo = normalizar(nome);
