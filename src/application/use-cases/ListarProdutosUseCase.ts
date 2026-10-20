@@ -10,8 +10,13 @@ export class ListarProdutosUseCase {
   constructor(private readonly repo: ProdutoRepository) {}
 
   async executar(input: ListarProdutosInputDTO = {}): Promise<ListarProdutosOutputDTO> {
-    const pagina = Math.max(1, Math.floor(input.pagina ?? 1));
-    const limite = Math.min(LIMITE_MAXIMO, Math.max(1, Math.floor(input.limite ?? LIMITE_PADRAO)));
+
+    function inteiroOuPadrao(valor: number | undefined, padrao: number): number {
+      return Number.isFinite(valor) ? Math.floor(valor as number) : padrao;
+    }
+
+    const pagina = Math.max(1, inteiroOuPadrao(input.pagina, 1));
+    const limite = Math.min(LIMITE_MAXIMO, Math.max(1, inteiroOuPadrao(input.limite, LIMITE_PADRAO)));
 
     const { itens, total } = await this.repo.buscarPaginado({
       nome: input.nome,
@@ -27,5 +32,6 @@ export class ListarProdutosUseCase {
       limite,
       totalPaginas: Math.ceil(total / limite),
     };
+
   }
 }
