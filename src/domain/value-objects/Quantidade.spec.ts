@@ -1,5 +1,5 @@
 import { Quantidade } from '../value-objects/Quantidade.js';
-import { ValidationError } from "../errors/ValidationError.js";
+import { ValidationError } from '../errors/ValidationError.js';
 import { describe, it, expect } from 'vitest';
 
 describe('Quantidade', () => {
@@ -38,9 +38,7 @@ describe('Quantidade', () => {
     });
 
     it('rejeita remoção que resultaria em negativo', () => {
-      expect(() =>
-        Quantidade.criar(2).remover(Quantidade.criar(5)),
-      ).toThrow(ValidationError);
+      expect(() => Quantidade.criar(2).remover(Quantidade.criar(5))).toThrow(ValidationError);
     });
 
     it('ehMaiorQue compara', () => {

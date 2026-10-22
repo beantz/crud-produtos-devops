@@ -1,10 +1,10 @@
 import { Produto } from '../../domain/entities/Produto.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
 import type { ProdutoRepository } from '../interfaces/ProdutoRepository.js';
-import type  { IdGenerator } from '../interfaces/IdGenerator.js';
-import type { CriarProdutoInputDTO } from  '../dtos/CriarProdutoDTO.js';
-import type { CriarProdutoOutputDTO } from  '../dtos/CriarProdutoDTO.js';
-import { ProdutoMapper } from  '../mappers/ProdutoMapper.js';
+import type { IdGenerator } from '../interfaces/IdGenerator.js';
+import type { CriarProdutoInputDTO } from '../dtos/CriarProdutoDTO.js';
+import type { CriarProdutoOutputDTO } from '../dtos/CriarProdutoDTO.js';
+import { ProdutoMapper } from '../mappers/ProdutoMapper.js';
 
 export class CriarProdutoUseCase {
   constructor(

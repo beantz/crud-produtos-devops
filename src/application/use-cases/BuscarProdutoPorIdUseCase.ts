@@ -1,8 +1,8 @@
-import type { ProdutoRepository } from  '../interfaces/ProdutoRepository.js';
-import type { BuscarProdutoPorIdInputDTO } from  '../dtos/BuscarProdutoPorIdDTO.js';
-import type { BuscarProdutoPorIdOutputDTO } from  '../dtos/BuscarProdutoPorIdDTO.js';
-import { ProdutoMapper } from  '../mappers/ProdutoMapper.js';
-import { NotFoundError } from  '../../domain/errors/NotFoundError.js';
+import type { ProdutoRepository } from '../interfaces/ProdutoRepository.js';
+import type { BuscarProdutoPorIdInputDTO } from '../dtos/BuscarProdutoPorIdDTO.js';
+import type { BuscarProdutoPorIdOutputDTO } from '../dtos/BuscarProdutoPorIdDTO.js';
+import { ProdutoMapper } from '../mappers/ProdutoMapper.js';
+import { NotFoundError } from '../../domain/errors/NotFoundError.js';
 
 export class BuscarProdutoPorIdUseCase {
   constructor(private readonly repo: ProdutoRepository) {}

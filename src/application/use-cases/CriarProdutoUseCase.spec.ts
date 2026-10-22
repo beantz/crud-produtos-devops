@@ -45,32 +45,32 @@ describe('CriarProdutoUseCase', () => {
   it('rejeita nome duplicado ignorando maiúsculas, e não persiste', async () => {
     await repo.adicionar(makeProduto({ id: 'x', nome: 'Xbox' }));
 
-    await expect(
-      sut.executar({ nome: 'xbox', preco: 100, quantidade: 1 }),
-    ).rejects.toThrow(DuplicateProductError);
+    await expect(sut.executar({ nome: 'xbox', preco: 100, quantidade: 1 })).rejects.toThrow(
+      DuplicateProductError,
+    );
 
     expect(repo.items).toHaveLength(1);
   });
 
   it('propaga ValidationError para nome curto, e não persiste', async () => {
-    await expect(
-      sut.executar({ nome: 'AB', preco: 100, quantidade: 1 }),
-    ).rejects.toThrow(ValidationError);
+    await expect(sut.executar({ nome: 'AB', preco: 100, quantidade: 1 })).rejects.toThrow(
+      ValidationError,
+    );
 
     expect(repo.items).toHaveLength(0);
   });
 
   it('propaga ValidationError para preço negativo, e não persiste', async () => {
-    await expect(
-      sut.executar({ nome: 'Produto', preco: -10, quantidade: 1 }),
-    ).rejects.toThrow(ValidationError);
+    await expect(sut.executar({ nome: 'Produto', preco: -10, quantidade: 1 })).rejects.toThrow(
+      ValidationError,
+    );
 
     expect(repo.items).toHaveLength(0);
   });
 
   it('propaga ValidationError para quantidade decimal', async () => {
-    await expect(
-      sut.executar({ nome: 'Produto', preco: 10, quantidade: 1.5 }),
-    ).rejects.toThrow(ValidationError);
+    await expect(sut.executar({ nome: 'Produto', preco: 10, quantidade: 1.5 })).rejects.toThrow(
+      ValidationError,
+    );
   });
 });

@@ -13,9 +13,7 @@ describe('AtualizarProdutoUseCase', () => {
   beforeEach(async () => {
     repo = new InMemoryProdutoRepository();
     sut = new AtualizarProdutoUseCase(repo);
-    await repo.adicionar(
-      makeProduto({ id: 'id-1', nome: 'Xbox', preco: 4500, quantidade: 10 }),
-    );
+    await repo.adicionar(makeProduto({ id: 'id-1', nome: 'Xbox', preco: 4500, quantidade: 10 }));
   });
 
   it('atualiza o nome', async () => {
@@ -63,16 +61,15 @@ describe('AtualizarProdutoUseCase', () => {
   });
 
   it('lança NotFoundError quando o produto não existe', async () => {
-    await expect(
-      sut.executar({ id: 'inexistente', nome: 'Qualquer' }),
-    ).rejects.toThrow(NotFoundError);
+    await expect(sut.executar({ id: 'inexistente', nome: 'Qualquer' })).rejects.toThrow(
+      NotFoundError,
+    );
   });
 
   it('lança DuplicateProductError quando o nome pertence a outro produto', async () => {
     await repo.adicionar(makeProduto({ id: 'id-2', nome: 'PS5' }));
 
-    await expect(sut.executar({ id: 'id-1', nome: 'PS5' }))
-      .rejects.toThrow(DuplicateProductError);
+    await expect(sut.executar({ id: 'id-1', nome: 'PS5' })).rejects.toThrow(DuplicateProductError);
   });
 
   it('não acusa duplicidade quando o nome é do próprio produto', async () => {
@@ -82,26 +79,25 @@ describe('AtualizarProdutoUseCase', () => {
   });
 
   it('propaga ValidationError para nome inválido e NÃO salva', async () => {
-    await expect(sut.executar({ id: 'id-1', nome: 'ab' }))
-      .rejects.toThrow(ValidationError);
+    await expect(sut.executar({ id: 'id-1', nome: 'ab' })).rejects.toThrow(ValidationError);
 
     const salvo = await repo.buscarPorId('id-1');
     expect(salvo?.nome).toBe('Xbox');
   });
 
   it('propaga ValidationError para preço negativo e NÃO salva', async () => {
-    await expect(sut.executar({ id: 'id-1', preco: -1 }))
-      .rejects.toThrow(ValidationError);
+    await expect(sut.executar({ id: 'id-1', preco: -1 })).rejects.toThrow(ValidationError);
 
     const salvo = await repo.buscarPorId('id-1');
     expect(salvo?.preco.valor).toBe(4500);
   });
 
   it('não salva mudança parcial quando o segundo campo é inválido', async () => {
-    await expect(sut.executar({ id: 'id-1', nome: 'Nome Válido', preco: -1 }))
-      .rejects.toThrow(ValidationError);
+    await expect(sut.executar({ id: 'id-1', nome: 'Nome Válido', preco: -1 })).rejects.toThrow(
+      ValidationError,
+    );
 
     const salvo = await repo.buscarPorId('id-1');
-    expect(salvo?.nome).toBe('Xbox'); 
+    expect(salvo?.nome).toBe('Xbox');
   });
 });

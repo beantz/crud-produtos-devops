@@ -1,6 +1,10 @@
-import type { ProdutoRepository, FiltroListagem, ResultadoListagem } from '../../application/interfaces/ProdutoRepository.js';
+import type {
+  ProdutoRepository,
+  FiltroListagem,
+  ResultadoListagem,
+} from '../../application/interfaces/ProdutoRepository.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
-import { NotFoundError } from "../../domain/errors/NotFoundError.js";
+import { NotFoundError } from '../../domain/errors/NotFoundError.js';
 import { Produto } from '../../domain/entities/Produto.js';
 
 export class InMemoryProdutoRepository implements ProdutoRepository {
@@ -57,9 +61,7 @@ export class InMemoryProdutoRepository implements ProdutoRepository {
   async existeComNome(nome: string, ignorarId?: string): Promise<boolean> {
     const alvo = normalizar(nome);
     //some testa algo no array satisfaz uma condicao
-    return [...this.store.values()].some(
-      (p) => p.id !== ignorarId && normalizar(p.nome) === alvo,
-    );
+    return [...this.store.values()].some((p) => p.id !== ignorarId && normalizar(p.nome) === alvo);
   }
 }
 
@@ -73,8 +75,8 @@ function clonar(produto: Produto): Produto {
   return Produto.reconstituir({
     id: produto.id,
     nome: produto.nome,
-    preco: produto.preco,           //vo imutável: pode compartilhar
-    quantidade: produto.quantidade, 
+    preco: produto.preco, //vo imutável: pode compartilhar
+    quantidade: produto.quantidade,
     criadoEm: produto.criadoEm,
     atualizadoEm: produto.atualizadoEm,
   });

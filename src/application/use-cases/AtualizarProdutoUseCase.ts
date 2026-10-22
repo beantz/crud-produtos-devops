@@ -1,9 +1,9 @@
-import type { ProdutoRepository } from  '../interfaces/ProdutoRepository.js';
-import type { AtualizarProdutoInputDTO } from  '../dtos/AtualizarProdutoDTO.js';
-import type { AtualizarProdutoOutputDTO } from  '../dtos/AtualizarProdutoDTO.js';
-import { ProdutoMapper } from  '../mappers/ProdutoMapper.js';
-import { NotFoundError } from  '../../domain/errors/NotFoundError.js';
-import { DuplicateProductError } from  '../../domain/errors/DuplicateProductError.js';
+import type { ProdutoRepository } from '../interfaces/ProdutoRepository.js';
+import type { AtualizarProdutoInputDTO } from '../dtos/AtualizarProdutoDTO.js';
+import type { AtualizarProdutoOutputDTO } from '../dtos/AtualizarProdutoDTO.js';
+import { ProdutoMapper } from '../mappers/ProdutoMapper.js';
+import { NotFoundError } from '../../domain/errors/NotFoundError.js';
+import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
 
 export class AtualizarProdutoUseCase {
   constructor(private readonly repo: ProdutoRepository) {}

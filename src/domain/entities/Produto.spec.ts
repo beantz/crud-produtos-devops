@@ -1,6 +1,6 @@
 import { Produto } from './Produto.js';
 import { Quantidade } from '../value-objects/Quantidade.js';
-import { ValidationError } from "../errors/ValidationError.js";
+import { ValidationError } from '../errors/ValidationError.js';
 import { Preco } from '../value-objects/Preco.js';
 import { describe, it, expect } from 'vitest';
 
@@ -28,33 +28,23 @@ describe('Produto', () => {
     });
 
     it('rejeita nome curto', () => {
-      expect(() => Produto.criar({ ...dadosValidos(), nome: 'ab' })).toThrow(
-        ValidationError,
-      );
+      expect(() => Produto.criar({ ...dadosValidos(), nome: 'ab' })).toThrow(ValidationError);
     });
 
     it('rejeita nome vazio', () => {
-      expect(() => Produto.criar({ ...dadosValidos(), nome: '' })).toThrow(
-        ValidationError,
-      );
+      expect(() => Produto.criar({ ...dadosValidos(), nome: '' })).toThrow(ValidationError);
     });
 
     it('rejeita id vazio', () => {
-      expect(() => Produto.criar({ ...dadosValidos(), id: '' })).toThrow(
-        ValidationError,
-      );
+      expect(() => Produto.criar({ ...dadosValidos(), id: '' })).toThrow(ValidationError);
     });
 
     it('rejeita preço inválido (propaga do VO)', () => {
-      expect(() => Produto.criar({ ...dadosValidos(), preco: -1 })).toThrow(
-        ValidationError,
-      );
+      expect(() => Produto.criar({ ...dadosValidos(), preco: -1 })).toThrow(ValidationError);
     });
 
     it('rejeita quantidade inválida (propaga do VO)', () => {
-      expect(() =>
-        Produto.criar({ ...dadosValidos(), quantidade: 1.5 }),
-      ).toThrow(ValidationError);
+      expect(() => Produto.criar({ ...dadosValidos(), quantidade: 1.5 })).toThrow(ValidationError);
     });
   });
 

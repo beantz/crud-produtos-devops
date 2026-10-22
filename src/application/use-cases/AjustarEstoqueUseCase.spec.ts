@@ -57,24 +57,24 @@ describe('AjustarEstoqueUseCase', () => {
   });
 
   it('rejeita remover mais que o disponível e NÃO altera o estoque', async () => {
-    await expect(
-      sut.executar({ id: 'id-1', tipo: 'remover', quantidade: 100 }),
-    ).rejects.toThrow(ValidationError);
+    await expect(sut.executar({ id: 'id-1', tipo: 'remover', quantidade: 100 })).rejects.toThrow(
+      ValidationError,
+    );
 
     const salvo = await repo.buscarPorId('id-1');
     expect(salvo?.quantidade.valor).toBe(10);
   });
 
   it('rejeita quantidade negativa', async () => {
-    await expect(
-      sut.executar({ id: 'id-1', tipo: 'adicionar', quantidade: -1 }),
-    ).rejects.toThrow(ValidationError);
+    await expect(sut.executar({ id: 'id-1', tipo: 'adicionar', quantidade: -1 })).rejects.toThrow(
+      ValidationError,
+    );
   });
 
   it('rejeita quantidade decimal', async () => {
-    await expect(
-      sut.executar({ id: 'id-1', tipo: 'adicionar', quantidade: 1.5 }),
-    ).rejects.toThrow(ValidationError);
+    await expect(sut.executar({ id: 'id-1', tipo: 'adicionar', quantidade: 1.5 })).rejects.toThrow(
+      ValidationError,
+    );
   });
 
   it('lança NotFoundError quando o produto não existe', async () => {

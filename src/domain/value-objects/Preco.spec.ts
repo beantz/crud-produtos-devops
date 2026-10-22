@@ -1,5 +1,5 @@
 import { Preco } from '../value-objects/Preco.js';
-import { ValidationError } from "../errors/ValidationError.js";
+import { ValidationError } from '../errors/ValidationError.js';
 import { describe, it, expect } from 'vitest';
 
 describe('Preco', () => {

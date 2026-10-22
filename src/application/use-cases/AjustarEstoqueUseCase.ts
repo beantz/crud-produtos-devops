@@ -1,8 +1,8 @@
-import type { ProdutoRepository } from  '../interfaces/ProdutoRepository.js';
-import type { AjustarEstoqueInputDTO } from  '../dtos/AjustarEstoqueDTO.js';
-import type { AjustarEstoqueOutputDTO } from  '../dtos/AjustarEstoqueDTO.js';
-import { ProdutoMapper } from  '../mappers/ProdutoMapper.js';
-import { NotFoundError } from  '../../domain/errors/NotFoundError.js';
+import type { ProdutoRepository } from '../interfaces/ProdutoRepository.js';
+import type { AjustarEstoqueInputDTO } from '../dtos/AjustarEstoqueDTO.js';
+import type { AjustarEstoqueOutputDTO } from '../dtos/AjustarEstoqueDTO.js';
+import { ProdutoMapper } from '../mappers/ProdutoMapper.js';
+import { NotFoundError } from '../../domain/errors/NotFoundError.js';
 
 export class AjustarEstoqueUseCase {
   constructor(private readonly repo: ProdutoRepository) {}

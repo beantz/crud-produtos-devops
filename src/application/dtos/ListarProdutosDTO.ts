@@ -3,7 +3,7 @@ import type { ProdutoDTO } from './ProdutoDTO.js';
 export interface ListarProdutosInputDTO {
   pagina?: number;
   limite?: number;
-  nome?: string; 
+  nome?: string;
   apenasDisponiveis?: boolean;
 }
 

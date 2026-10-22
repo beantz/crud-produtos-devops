@@ -1,6 +1,6 @@
 import { Preco } from '../value-objects/Preco.js';
 import { Quantidade } from '../value-objects/Quantidade.js';
-import { ValidationError } from "../errors/ValidationError.js";
+import { ValidationError } from '../errors/ValidationError.js';
 
 //como o produto e por dentro
 interface ProdutoProps {
@@ -56,12 +56,24 @@ export class Produto {
     return new Produto(props);
   }
 
-  get id(): string { return this._id; }
-  get nome(): string { return this._nome; }
-  get preco(): Preco { return this._preco; }
-  get quantidade(): Quantidade { return this._quantidade; }
-  get criadoEm(): Date { return new Date(this._criadoEm); }
-  get atualizadoEm(): Date { return new Date(this._atualizadoEm); }
+  get id(): string {
+    return this._id;
+  }
+  get nome(): string {
+    return this._nome;
+  }
+  get preco(): Preco {
+    return this._preco;
+  }
+  get quantidade(): Quantidade {
+    return this._quantidade;
+  }
+  get criadoEm(): Date {
+    return new Date(this._criadoEm);
+  }
+  get atualizadoEm(): Date {
+    return new Date(this._atualizadoEm);
+  }
 
   renomear(novoNome: string): void {
     const nomeValidado = Produto.validarNome(novoNome);
