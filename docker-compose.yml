@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: produtos-db
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: produtos
+    ports:
+      - "5432:5432"
+    volumes:
+    #volume nomeado, docker decide onde vai ficar o banco fisico
+      - pgdata:/var/lib/postgresql/data
+      #arquivo real do projeto dentro do container
+      - ./scripts/criar-banco-teste.sql:/docker-entrypoint-initdb.d/01-teste.sql
+    healthcheck:
+      # test: o comando executado dentro do container para testar a saúde.
+      # ["CMD-SHELL", "..."] executa o comando via shell (/bin/sh -c).
+      # pg_isready -U app -d produtos testa postgres e ver se conectar ao
+      # servidor e responde com exit code 0 se estiver pronto para aceitar conexões.
+      # -U app = usuário; -d produtos = database.
+      test: ["CMD-SHELL", "pg_isready -U app -d produtos"]
+      #a cada 5 segundos o Docker roda o teste.
+      interval: 5s
+      #se o comando não terminar em 3 segundos, conta como falha.
+      timeout: 3s
+      # retries: 5: o container só é marcado como unhealthy após 5 falhas consecutivas.
+      retries: 5
+
+volumes:
+  pgdata:
