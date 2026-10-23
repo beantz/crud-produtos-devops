@@ -4,5 +4,4 @@ export * from './ListarProdutosDTO.js';
 export * from './BuscarProdutoPorIdDTO.js';
 export * from './AtualizarProdutoDTO.js';
 export * from './DeletarProdutoDTO.js';
-export * from './ProdutoMapper.js';
 export * from './AjustarEstoqueDTO.js';

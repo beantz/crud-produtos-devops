@@ -8,8 +8,8 @@ export function criarPool(connectionString = process.env.DATABASE_URL): Pool {
   }
   return new Pool({
     connectionString,
-    max: 10,                       //máximo de conexões simultâneas
-    idleTimeoutMillis: 30_000,     //fecha conexão ociosa após 30s
-    connectionTimeoutMillis: 5_000 //falha se não conseguir conexão em 5s
+    max: 10, //máximo de conexões simultâneas
+    idleTimeoutMillis: 30_000, //fecha conexão ociosa após 30s
+    connectionTimeoutMillis: 5_000, //falha se não conseguir conexão em 5s
   });
 }

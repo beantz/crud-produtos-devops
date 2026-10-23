@@ -56,8 +56,8 @@ describe('ListarProdutosUseCase', () => {
       const p2 = await sut.executar({ pagina: 2, limite: 10 });
       const p3 = await sut.executar({ pagina: 3, limite: 10 });
 
-      expect(p2.itens[0].nome).toBe('Produto 11');
-      expect(p3.itens[0].nome).toBe('Produto 21');
+      expect(p2.itens[0]?.nome).toBe('Produto 11');
+      expect(p3.itens[0]?.nome).toBe('Produto 21');
     });
 
     it('não repete itens entre páginas', async () => {
@@ -90,7 +90,7 @@ describe('ListarProdutosUseCase', () => {
   });
 
   describe('normalização de entrada', () => {
-    it.each([0, -5])('trata página %i como 1', async (pagina) => {
+    it.each([0, -5])('trata página %i como 1', async (pagina: number) => {
       const output = await sut.executar({ pagina });
       expect(output.pagina).toBe(1);
     });
@@ -135,7 +135,7 @@ describe('ListarProdutosUseCase', () => {
       const output = await sut.executar({ apenasDisponiveis: true });
 
       expect(output.itens).toHaveLength(1);
-      expect(output.itens[0].nome).toBe('Produto A');
+      expect(output.itens[0]?.nome).toBe('Produto A');
       expect(output.total).toBe(1);
     });
 
@@ -147,7 +147,7 @@ describe('ListarProdutosUseCase', () => {
       const output = await sut.executar({ nome: 'xbox', apenasDisponiveis: true });
 
       expect(output.itens).toHaveLength(1);
-      expect(output.itens[0].nome).toBe('Xbox 360');
+      expect(output.itens[0]?.nome).toBe('Xbox 360');
     });
 
     it('devolve vazio quando o filtro não encontra nada', async () => {
