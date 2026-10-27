@@ -6,6 +6,8 @@ import { DuplicateProductError } from '../../domain/errors/DuplicateProductError
 import { NotFoundError } from '../../domain/errors/NotFoundError.js';
 import { ProdutoRowMapper, type ProdutoRow } from './ProdutoRowMapper.js';
 
+//queryable e um tipo q define qualquer coisa q tenha um metodo query
+//pick cria um novo tipo pegando as propriedade de query do tipo pool ou poolCliente
 export type Queryable = Pick<Pool | PoolClient, 'query'>;
 
 const COLUNAS = 'id, nome, preco, quantidade, criado_em, atualizado_em';
