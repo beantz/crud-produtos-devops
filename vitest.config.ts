@@ -10,5 +10,6 @@ export default defineConfig({
       include: ['src/**/*.ts'],
       exclude: ['src/**/*.spec.ts', 'src/shared/testing/**'],
     },
+    fileParallelism: false,
   },
 });

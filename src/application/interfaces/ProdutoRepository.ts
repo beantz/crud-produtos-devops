@@ -19,4 +19,5 @@ export interface ProdutoRepository {
   buscarPorId(id: string): Promise<Produto | null>;
   buscarPaginado(filtro: FiltroListagem): Promise<ResultadoListagem>;
   existeComNome(nome: string, ignorarId?: string): Promise<boolean>;
+  buscarPorNomeContendo(trecho: string): Promise<Produto[]>;
 }

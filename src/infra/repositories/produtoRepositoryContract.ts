@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import type { ProdutoRepository } from '../../application/interfaces/ProdutoRepository.js';
-import { makeProduto } from './makeProduto.js';
+import { makeProduto } from '../../shared/testing/makeProduto.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
 import { NotFoundError } from '../../domain/errors/NotFoundError.js';
 
@@ -40,8 +40,8 @@ export function testarContratoProdutoRepository(
       expect(lido?.criadoEm.getTime()).toBe(original.criadoEm.getTime());
     });
 
-    it('rejeita id duplicado', async () => { parei aqui
-      await repo.adicionar(makeProduto({ id: 'a', nome: 'Um' }));
+    it('rejeita id duplicado', async () => {
+      await repo.adicionar(makeProduto({ id: 'a', nome: 'Uma' }));
 
       await expect(repo.adicionar(makeProduto({ id: 'a', nome: 'Dois' })))
         .rejects.toThrow(DuplicateProductError);

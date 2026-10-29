@@ -19,7 +19,8 @@
     "migrate:up": "node-pg-migrate up -m migrations",
     "migrate:down": "node-pg-migrate down -m migrations",
     "migrate:create": "node-pg-migrate create -m migrations",
-    "migrate:test": "DATABASE_URL=$DATABASE_URL_TEST node-pg-migrate up -m migrations"
+    "test:integration": "vitest run integration",
+    "migrate:test": "dotenv -e .env.test -- node-pg-migrate up -m migrations"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,7 @@
     "@types/pg": "^8.23.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "@vitest/coverage-v8": "^5.0.5",
+    "dotenv-cli": "^11.1.0",
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
