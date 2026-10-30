@@ -63,6 +63,14 @@ export class InMemoryProdutoRepository implements ProdutoRepository {
     //some testa algo no array satisfaz uma condicao
     return [...this.store.values()].some((p) => p.id !== ignorarId && normalizar(p.nome) === alvo);
   }
+
+  async buscarPorNomeContendo(trecho: string): Promise<Produto[]> {
+    const alvo = trecho.trim().toLowerCase();
+
+    return this.items.filter((p) =>
+      p.nome.toLowerCase().includes(alvo)
+    );
+  }
 }
 
 //helpers
