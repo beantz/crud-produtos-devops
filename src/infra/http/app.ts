@@ -1,5 +1,5 @@
 import express, { type Express } from 'express';
-import { criarRotasProduto } from './routes/produtoRoutes.js';
+import { criarRotasProduto } from '../routes/produtoRoutes.js';
 import { rotaNaoEncontrada } from './middlewares/rotaNaoEncontrada.js';
 import { tratarErros } from './middlewares/tratarErros.js';
 import type { ProdutoController } from './controllers/ProdutoController.js';
