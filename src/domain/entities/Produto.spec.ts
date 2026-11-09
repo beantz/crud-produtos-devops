@@ -87,6 +87,7 @@ describe('Produto', () => {
     it('atualiza atualizadoEm ao mutar', async () => {
       const p = Produto.criar(dadosValidos());
       const antes = p.atualizadoEm;
+      //pausa o codigo por 5 milissegundos
       await new Promise((r) => setTimeout(r, 5));
       p.renomear('Outro nome');
       expect(p.atualizadoEm.getTime()).toBeGreaterThan(antes.getTime());
@@ -97,7 +98,7 @@ describe('Produto', () => {
     it('reidrata sem revalidar (permite dados legados)', () => {
       const p = Produto.reconstituir({
         id: 'p1',
-        nome: 'ab', // nome inválido segundo regra atual
+        nome: 'ab',
         preco: Preco.criar(10),
         quantidade: Quantidade.criar(1),
         criadoEm: new Date('2020-01-01'),
@@ -113,8 +114,8 @@ describe('Produto', () => {
       const b = Produto.criar({ ...dadosValidos(), nome: 'Outro' });
       const c = Produto.criar({ ...dadosValidos(), id: 'p2' });
 
-      expect(a.equals(b)).toBe(true); // mesmo id
-      expect(a.equals(c)).toBe(false); // ids diferentes
+      expect(a.equals(b)).toBe(true); 
+      expect(a.equals(c)).toBe(false); 
     });
   });
 
