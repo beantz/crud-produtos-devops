@@ -27,5 +27,20 @@ services:
       # retries: 5: o container só é marcado como unhealthy após 5 falhas consecutivas.
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: produtos-cache
+    #inicia  o servidor, #--maxmemory", "64mb define o maximo de ram q ele pode usar
+    #allkeys significa que ele pode escolher qualquer dado armazenada para deletar
+    #lru menos usado recentemente
+    command: ["redis-server", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
 volumes:
   pgdata:
