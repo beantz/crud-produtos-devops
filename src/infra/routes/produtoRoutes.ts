@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import type { ProdutoController } from '../controllers/ProdutoController.js';
-import { validar } from '../middlewares/validar.js';
-import { asyncHandler } from '../asyncHandler.js';
+import type { ProdutoController } from '../http/controllers/ProdutoController.js';
+import { validar } from '../http/middlewares/validar.js';
+import { asyncHandler } from '../http/asyncHandler.js';
 import {
   criarProdutoSchema,
   atualizarProdutoSchema,
   ajustarEstoqueSchema,
   idParamSchema,
   listarQuerySchema,
-} from '../schemas/produtoSchemas.js';
+} from '../http/schemas/produtoSchemas.js';
 
 export function criarRotasProduto(c: ProdutoController): Router {
   const r = Router();
