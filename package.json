@@ -20,7 +20,8 @@
     "migrate:down": "node-pg-migrate down -m migrations",
     "migrate:create": "node-pg-migrate create -m migrations",
     "test:integration": "vitest run integration",
-    "migrate:test": "dotenv -e .env.test -- node-pg-migrate up -m migrations"
+    "migrate:test": "dotenv -e .env.test -- node-pg-migrate up -m migrations",
+    "benchmark": "tsx scripts/benchmark.ts"
   },
   "keywords": [],
   "author": "",

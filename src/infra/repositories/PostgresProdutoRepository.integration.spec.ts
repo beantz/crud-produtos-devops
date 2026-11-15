@@ -7,7 +7,9 @@ import { testarContratoProdutoRepository } from './produtoRepositoryContract.js'
 let pool: Pool;
 
 beforeAll(() => {
-  pool = criarPool(process.env.DATABASE_URL_TEST); //usa banco de testes
+  const url = process.env.DATABASE_URL_TEST;
+  if (!url) throw new Error('DATABASE_URL_TEST não definida');
+  pool = criarPool(url);
 });
 
 afterAll(async () => {
