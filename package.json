@@ -21,7 +21,8 @@
     "migrate:create": "node-pg-migrate create -m migrations",
     "test:integration": "vitest run integration",
     "migrate:test": "dotenv -e .env.test -- node-pg-migrate up -m migrations",
-    "benchmark": "tsx scripts/benchmark.ts"
+    "benchmark": "tsx scripts/benchmark.ts",
+    "seed": "tsx scripts/seed.ts"
   },
   "keywords": [],
   "author": "",

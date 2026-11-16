@@ -12,14 +12,14 @@ async function medir(nome: string, fn: () => Promise<unknown>) {
 
   const tempos: number[] = [];
   for (let i = 0; i < REQUISICOES; i++) {
-    const t0 = performance.now(); //guarda o tempo exato de cada uma
-    await fn();
-    tempos.push(performance.now() - t0);
+    const t0 = performance.now(); //guarda o tempo de inicio
+    await fn(); //funcao a ser executada, vai ser passsada na chamada
+    tempos.push(performance.now() - t0); //tempo exato da execução 
   }
-  tempos.sort((a, b) => a - b);
+  tempos.sort((a, b) => a - b); //ordena do menor pro maior
 
-  const pct = (p: number) => tempos[Math.floor(tempos.length * p)].toFixed(3);
-  const media = (tempos.reduce((a, b) => a + b, 0) / tempos.length).toFixed(3);
+  const pct = (p: number) => tempos[Math.floor(tempos.length * p)].toFixed(3); //multiplica total de requisições pela porcentagem e pega os 95% mais rapidos
+  const media = (tempos.reduce((a, b) => a + b, 0) / tempos.length).toFixed(3); //pega todos os valor e tira a media, fixed formata  pra exibir so 3 casas decimais
   console.log(`${nome.padEnd(28)} média ${media}ms | p50 ${pct(0.5)}ms | p95 ${pct(0.95)}ms | p99 ${pct(0.99)}ms`);
 }
 
@@ -32,7 +32,12 @@ async function main() {
     ttlListaSegundos: 3600,
   });
 
-  await redis.flushdb(); //ATENÇÃO: use um db dedicado ao benchmark
+  if (redis.status !== 'ready') {
+    console.log('Aguardando conexão com o Redis...');
+    await new Promise((resolve) => redis.once('ready', resolve));
+  }
+
+  await redis.flushdb();
 
   const id = (await semCache.buscarPaginado({ limite: 1, deslocamento: 0 })).itens[0]?.id;
   if (!id) throw new Error('Rode o seed antes (banco vazio)');
@@ -48,4 +53,4 @@ async function main() {
   await redis.quit();
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => { console.error(e); process.exit(1); }); //se der erro, pega e exibe e encerra o programa
