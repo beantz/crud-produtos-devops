@@ -2,7 +2,7 @@ import { Produto } from './Produto.js';
 import { Quantidade } from '../value-objects/Quantidade.js';
 import { ValidationError } from '../errors/ValidationError.js';
 import { Preco } from '../value-objects/Preco.js';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 const dadosValidos = () => ({
   id: 'p1',
@@ -31,6 +31,10 @@ describe('Produto', () => {
       expect(() => Produto.criar({ ...dadosValidos(), nome: 'ab' })).toThrow(ValidationError);
     });
 
+    it('rejeita nome grande', () => {
+      expect(() => Produto.criar({ ...dadosValidos(), nome: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat elementum' })).toThrow(ValidationError);
+    });
+
     it('rejeita nome vazio', () => {
       expect(() => Produto.criar({ ...dadosValidos(), nome: '' })).toThrow(ValidationError);
     });
@@ -54,6 +58,15 @@ describe('Produto', () => {
       p.renomear('Monitor');
       expect(p.nome).toBe('Monitor');
       expect(() => p.renomear('ab')).toThrow(ValidationError);
+    });
+
+    it('renomeia com nome ja existente e dateTime nao e executado', async () => {
+      const p = Produto.criar(dadosValidos());
+      
+      const antes = p.atualizadoEm;
+      await new Promise((r) => setTimeout(r, 5));
+      p.renomear('Notebook');
+      expect(p.atualizadoEm.getTime()).toBe(antes.getTime());
     });
 
     it('altera preço', () => {

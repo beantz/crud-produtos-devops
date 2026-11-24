@@ -3,6 +3,7 @@ import type { ProdutoRepository } from '../../application/interfaces/ProdutoRepo
 import { makeProduto } from '../../shared/testing/makeProduto.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
 import { NotFoundError } from '../../domain/errors/NotFoundError.js';
+import { Produto } from '../../domain/entities/Produto.js';
 
 //testa os repositories
 export function testarContratoProdutoRepository(
@@ -101,6 +102,24 @@ export function testarContratoProdutoRepository(
 
       expect(r.total).toBe(1);
       expect(r.itens[0].nome).toBe('Xbox 360');
+    });
+
+    it('buscarPaginado devolve 0 quando não existe', async () => {
+      const r = await repo.buscarPaginado({
+        nome: 'nao-existe', apenasDisponiveis: true, limite: 10, deslocamento: 0,
+      });
+      
+      expect(r.total).toBe(0);
+    });
+
+    it('verifica se vem entidade produto do banco ao usar buscarPaginado', async () => {
+      await repo.adicionar(makeProduto({ id: 'a', nome: 'Xbox 360', quantidade: 1 }));
+
+      const r = await repo.buscarPaginado({
+        nome: 'Xbox 360', apenasDisponiveis: true, limite: 10, deslocamento: 0,
+      });
+
+      expect(r.itens[0]).toBeInstanceOf(Produto);
     });
 
     it('buscarPorNomeContendo não trata % como curinga', async () => {

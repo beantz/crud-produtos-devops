@@ -4,8 +4,11 @@ import { describe, it, expect } from 'vitest';
 
 describe('Preco', () => {
   describe('criar', () => {
-    it('cria um preço válido', () => {
-      expect(Preco.criar(10.5).valor).toBe(10.5);
+    it('cria um preço válido e verifica função string', () => {
+      let preco = Preco.criar(10.5);
+      expect(preco.valor).toBe(10.5);
+      let precoString = preco.valor.toString();
+      expect(precoString).toEqual(expect.any(String));
     });
 
     it('arredonda para 2 casas decimais (evita float impreciso)', () => {
