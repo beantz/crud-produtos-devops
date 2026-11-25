@@ -23,6 +23,10 @@ describe('Quantidade', () => {
     it('rejeita NaN', () => {
       expect(() => Quantidade.criar(NaN)).toThrow(ValidationError);
     });
+
+    it('rejeita Infinity', () => {
+      expect(() => Quantidade.criar(Infinity)).toThrow(ValidationError);
+    });
   });
 
   describe('operações', () => {
@@ -39,6 +43,11 @@ describe('Quantidade', () => {
 
     it('rejeita remoção que resultaria em negativo', () => {
       expect(() => Quantidade.criar(2).remover(Quantidade.criar(5))).toThrow(ValidationError);
+    });
+
+    it('aceita remoção que resultaria em 0', () => {
+      const q = Quantidade.criar(2).remover(Quantidade.criar(2));
+      expect(q.valor).toBe(0);
     });
 
     it('ehMaiorQue compara', () => {

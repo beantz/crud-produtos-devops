@@ -2,7 +2,7 @@ import { Produto } from './Produto.js';
 import { Quantidade } from '../value-objects/Quantidade.js';
 import { ValidationError } from '../errors/ValidationError.js';
 import { Preco } from '../value-objects/Preco.js';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 const dadosValidos = () => ({
   id: 'p1',
@@ -31,12 +31,21 @@ describe('Produto', () => {
       expect(() => Produto.criar({ ...dadosValidos(), nome: 'ab' })).toThrow(ValidationError);
     });
 
-    it('rejeita nome grande', () => {
-      expect(() => Produto.criar({ ...dadosValidos(), nome: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat elementum' })).toThrow(ValidationError);
+    it('aceita ate 200 caracter', () => {
+      const p = Produto.criar({ ...dadosValidos(), nome: 'a'.repeat(200) });
+      expect(p.nome).toHaveLength(200);
+    });
+
+    it('rejeita ate 201 ccaracter', () => {
+      expect(() => Produto.criar({ ...dadosValidos(), nome: 'a'.repeat(201) })).toThrow(ValidationError);
     });
 
     it('rejeita nome vazio', () => {
       expect(() => Produto.criar({ ...dadosValidos(), nome: '' })).toThrow(ValidationError);
+    });
+
+    it('rejeita nome null/undefined', () => {
+      expect(() => Produto.criar({ ...dadosValidos(), nome: undefined as any })).toThrow(ValidationError);
     });
 
     it('rejeita id vazio', () => {
@@ -49,6 +58,13 @@ describe('Produto', () => {
 
     it('rejeita quantidade inválida (propaga do VO)', () => {
       expect(() => Produto.criar({ ...dadosValidos(), quantidade: 1.5 })).toThrow(ValidationError);
+    });
+  });
+
+  describe('equals', () => {
+    it('é false para null/undefined', () => {
+      expect(Produto.criar(dadosValidos()).equals(undefined)).toBe(false);
+      expect(Produto.criar(dadosValidos()).equals(null)).toBe(false);
     });
   });
 

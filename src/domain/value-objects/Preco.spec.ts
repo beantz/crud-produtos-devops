@@ -11,7 +11,7 @@ describe('Preco', () => {
       expect(precoString).toEqual(expect.any(String));
     });
 
-    it('arredonda para 2 casas decimais (evita float impreciso)', () => {
+    it('arredonda para 2 casas decimais', () => {
       expect(Preco.criar(0.1 + 0.2).valor).toBe(0.3);
     });
 
@@ -20,7 +20,7 @@ describe('Preco', () => {
     });
 
     it('rejeita valor negativo', () => {
-      expect(() => Preco.criar(-1)).toThrow(ValidationError);
+      expect(() => Preco.criar(-0.01)).toThrow(ValidationError);
     });
 
     it('rejeita NaN', () => {

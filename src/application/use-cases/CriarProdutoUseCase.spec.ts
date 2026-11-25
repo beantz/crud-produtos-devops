@@ -1,10 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { CriarProdutoUseCase } from './CriarProdutoUseCase.js';
 import { InMemoryProdutoRepository } from '../../shared/testing/InMemoryProdutoRepository.js';
 import { FakeIdGenerator } from '../../shared/testing/FakeIdGenerator.js';
 import { makeProduto } from '../../shared/testing/makeProduto.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
 import { ValidationError } from '../../domain/errors/ValidationError.js';
+import { afterEach } from 'node:test';
 
 describe('CriarProdutoUseCase', () => {
   let repo: InMemoryProdutoRepository;
@@ -14,6 +15,10 @@ describe('CriarProdutoUseCase', () => {
     repo = new InMemoryProdutoRepository();
     sut = new CriarProdutoUseCase(repo, new FakeIdGenerator());
   });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  })
 
   it('cria o produto e devolve o DTO', async () => {
     const output = await sut.executar({ nome: 'Xbox Series X', preco: 4500, quantidade: 10 });
@@ -73,4 +78,13 @@ describe('CriarProdutoUseCase', () => {
       ValidationError,
     );
   });
+
+  describe('verifica se as funções são chamadas', () => {
+    it('Criar: não chama adicionar() quando o nome é duplicado', async () => {
+      await repo.adicionar(makeProduto({ id: 'x', nome: 'Xbox' }));
+      const espiao = vi.spyOn(repo, 'adicionar');
+      await expect(sut.executar({ nome: 'Xbox', preco: 1, quantidade: 1 })).rejects.toThrow();
+      expect(espiao).not.toHaveBeenCalled();
+    });
+  })
 });

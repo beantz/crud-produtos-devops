@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { AtualizarProdutoUseCase } from './AtualizarProdutoUseCase.js';
 import { InMemoryProdutoRepository } from '../../shared/testing/InMemoryProdutoRepository.js';
 import { makeProduto } from '../../shared/testing/makeProduto.js';
@@ -15,6 +15,10 @@ describe('AtualizarProdutoUseCase', () => {
     sut = new AtualizarProdutoUseCase(repo);
     await repo.adicionar(makeProduto({ id: 'id-1', nome: 'Xbox', preco: 4500, quantidade: 10 }));
   });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  })
 
   it('atualiza o nome', async () => {
     const output = await sut.executar({ id: 'id-1', nome: 'Xbox Series X' });
@@ -34,7 +38,7 @@ describe('AtualizarProdutoUseCase', () => {
     expect(output).toMatchObject({ nome: 'Novo Nome', preco: 999 });
   });
 
-  it('PERSISTE a alteração (relê do repositório)', async () => {
+  it('PERSISTE a alteração', async () => {
     await sut.executar({ id: 'id-1', preco: 5000 });
 
     const salvo = await repo.buscarPorId('id-1');
@@ -99,5 +103,13 @@ describe('AtualizarProdutoUseCase', () => {
 
     const salvo = await repo.buscarPorId('id-1');
     expect(salvo?.nome).toBe('Xbox');
+  });
+
+  describe('Verificar chamadas de funções', () => {
+    it('Atualizar: não chama atualizar() quando a entity rejeita a mudança', async () => {
+      const espiao = vi.spyOn(repo, 'atualizar');
+      await expect(sut.executar({ id: 'id-1', preco: -1 })).rejects.toThrow(ValidationError);
+      expect(espiao).not.toHaveBeenCalled();
+    });
   });
 });
