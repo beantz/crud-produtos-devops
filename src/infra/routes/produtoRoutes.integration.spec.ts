@@ -66,6 +66,18 @@ describe('API /produtos', () => {
       expect(res.status).toBe(409);
       expect(res.body.erro.codigo).toBe('DUPLICADO');
     });
+
+    it('/produtos com body ausente responde 400', async () => {
+      const res = await request(app).post('/produtos');
+      expect(res.status).toBe(400);
+    });
+
+    it('/produtos?limite=500 devolve limite efetivo 100', async () => {
+      const res = await request(app).get('/produtos?limite=500');
+      expect(res.body.limite).toBe(100);
+    });
+
+    
   });
 
   describe('GET /produtos/:id', () => {
@@ -115,7 +127,7 @@ describe('API /produtos', () => {
   });
 
   describe('PATCH /produtos/:id', () => {
-    it('200 e altera só o enviado', async () => {
+    it('200 e altera so o enviado', async () => {
       await request(app).post('/produtos').send(novo);
       const res = await request(app).patch('/produtos/id-1').send({ preco: 4000 });
 
