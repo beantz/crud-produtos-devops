@@ -1,7 +1,7 @@
-import { PostgresProdutoRepository } from "../repositories/PostgresProdutoRepository.js";
-import { PostgresUnitOfWork } from "./PostgresUnitOfWork.js";
-import { makeProduto } from "../../shared/testing/makeProduto.js";
-import {beforeAll, it, expect, afterAll, beforeEach } from 'vitest';
+import { PostgresProdutoRepository } from '../repositories/PostgresProdutoRepository.js';
+import { PostgresUnitOfWork } from './PostgresUnitOfWork.js';
+import { makeProduto } from '../../shared/testing/makeProduto.js';
+import { beforeAll, it, expect, afterAll, beforeEach } from 'vitest';
 import type { Pool } from 'pg';
 import { criarPool } from '../database/pool.js';
 
@@ -43,12 +43,10 @@ it('confirma tudo quando dá certo (commit)', async () => {
   const repo = new PostgresProdutoRepository(pool);
 
   await uow.executar(async ({ produtos }) => {
-
     const p = await produtos.buscarPorId('id_2');
     expect(p).not.toBeNull();
     p!.removerEstoque(5);
     await produtos.atualizar(p!);
-
   });
 
   expect((await repo.buscarPorId('id_2'))?.quantidade.valor).toBe(5);

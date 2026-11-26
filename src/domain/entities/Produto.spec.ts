@@ -37,7 +37,9 @@ describe('Produto', () => {
     });
 
     it('rejeita ate 201 ccaracter', () => {
-      expect(() => Produto.criar({ ...dadosValidos(), nome: 'a'.repeat(201) })).toThrow(ValidationError);
+      expect(() => Produto.criar({ ...dadosValidos(), nome: 'a'.repeat(201) })).toThrow(
+        ValidationError,
+      );
     });
 
     it('rejeita nome vazio', () => {
@@ -45,7 +47,9 @@ describe('Produto', () => {
     });
 
     it('rejeita nome null/undefined', () => {
-      expect(() => Produto.criar({ ...dadosValidos(), nome: undefined as any })).toThrow(ValidationError);
+      expect(() => Produto.criar({ ...dadosValidos(), nome: undefined as any })).toThrow(
+        ValidationError,
+      );
     });
 
     it('rejeita id vazio', () => {
@@ -78,7 +82,7 @@ describe('Produto', () => {
 
     it('renomeia com nome ja existente e dateTime nao e executado', async () => {
       const p = Produto.criar(dadosValidos());
-      
+
       const antes = p.atualizadoEm;
       await new Promise((r) => setTimeout(r, 5));
       p.renomear('Notebook');
@@ -143,8 +147,8 @@ describe('Produto', () => {
       const b = Produto.criar({ ...dadosValidos(), nome: 'Outro' });
       const c = Produto.criar({ ...dadosValidos(), id: 'p2' });
 
-      expect(a.equals(b)).toBe(true); 
-      expect(a.equals(c)).toBe(false); 
+      expect(a.equals(b)).toBe(true);
+      expect(a.equals(c)).toBe(false);
     });
   });
 

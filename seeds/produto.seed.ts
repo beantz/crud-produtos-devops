@@ -23,7 +23,7 @@ async function main() {
 }
 //executa a main e se der erro o ccath resgata
 main()
-  .catch((e) => { console.error(e), process.exit(1)}) //encerra o codigo com saida 1
+  .catch((e) => {
+    (console.error(e), process.exit(1));
+  }) //encerra o codigo com saida 1
   .finally(() => pool.end());
-;
-

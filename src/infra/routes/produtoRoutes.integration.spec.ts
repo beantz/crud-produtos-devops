@@ -27,7 +27,9 @@ describe('API /produtos', () => {
     });
 
     it('400 quando o tipo está errado (Zod)', async () => {
-      const res = await request(app).post('/produtos').send({ ...novo, preco: 'abc' });
+      const res = await request(app)
+        .post('/produtos')
+        .send({ ...novo, preco: 'abc' });
 
       expect(res.status).toBe(400);
       expect(res.body.erro.codigo).toBe('REQUISICAO_INVALIDA');
@@ -40,7 +42,9 @@ describe('API /produtos', () => {
     });
 
     it('400 quando vem campo desconhecido (strict)', async () => {
-      const res = await request(app).post('/produtos').send({ ...novo, id: 'hack' });
+      const res = await request(app)
+        .post('/produtos')
+        .send({ ...novo, id: 'hack' });
       expect(res.status).toBe(400);
     });
 
@@ -55,13 +59,17 @@ describe('API /produtos', () => {
     });
 
     it('400 para nome curto (barrado já na borda)', async () => {
-      const res = await request(app).post('/produtos').send({ ...novo, nome: 'ab' });
+      const res = await request(app)
+        .post('/produtos')
+        .send({ ...novo, nome: 'ab' });
       expect(res.status).toBe(400);
     });
 
     it('409 para nome duplicado', async () => {
       await request(app).post('/produtos').send(novo);
-      const res = await request(app).post('/produtos').send({ ...novo, nome: 'NOTEBOOK' });
+      const res = await request(app)
+        .post('/produtos')
+        .send({ ...novo, nome: 'NOTEBOOK' });
 
       expect(res.status).toBe(409);
       expect(res.body.erro.codigo).toBe('DUPLICADO');
@@ -76,8 +84,6 @@ describe('API /produtos', () => {
       const res = await request(app).get('/produtos?limite=500');
       expect(res.body.limite).toBe(100);
     });
-
-    
   });
 
   describe('GET /produtos/:id', () => {
@@ -100,7 +106,9 @@ describe('API /produtos', () => {
   describe('GET /produtos', () => {
     it('lista com paginação e total', async () => {
       for (let i = 1; i <= 25; i++) {
-        await request(app).post('/produtos').send({ ...novo, nome: `Produto ${i}` });
+        await request(app)
+          .post('/produtos')
+          .send({ ...novo, nome: `Produto ${i}` });
       }
 
       const res = await request(app).get('/produtos?pagina=3&limite=10');
@@ -112,8 +120,12 @@ describe('API /produtos', () => {
     });
 
     it('converte query string (texto) em número e booleano', async () => {
-      await request(app).post('/produtos').send({ ...novo, nome: 'Com estoque' });
-      await request(app).post('/produtos').send({ ...novo, nome: 'Sem estoque', quantidade: 0 });
+      await request(app)
+        .post('/produtos')
+        .send({ ...novo, nome: 'Com estoque' });
+      await request(app)
+        .post('/produtos')
+        .send({ ...novo, nome: 'Sem estoque', quantidade: 0 });
 
       const res = await request(app).get('/produtos?apenasDisponiveis=true');
 
@@ -155,21 +167,27 @@ describe('API /produtos', () => {
     });
 
     it('200 ao remover', async () => {
-      const res = await request(app).post('/produtos/id-1/estoque').send({ tipo: 'remover', quantidade: 4 });
+      const res = await request(app)
+        .post('/produtos/id-1/estoque')
+        .send({ tipo: 'remover', quantidade: 4 });
 
       expect(res.status).toBe(200);
       expect(res.body.quantidade).toBe(6);
     });
 
     it('422 ao remover mais que o estoque (regra de negócio)', async () => {
-      const res = await request(app).post('/produtos/id-1/estoque').send({ tipo: 'remover', quantidade: 100 });
+      const res = await request(app)
+        .post('/produtos/id-1/estoque')
+        .send({ tipo: 'remover', quantidade: 100 });
 
       expect(res.status).toBe(422);
       expect(res.body.erro.codigo).toBe('VALIDACAO');
     });
 
     it('400 para tipo inválido', async () => {
-      const res = await request(app).post('/produtos/id-1/estoque').send({ tipo: 'roubar', quantidade: 1 });
+      const res = await request(app)
+        .post('/produtos/id-1/estoque')
+        .send({ tipo: 'roubar', quantidade: 1 });
       expect(res.status).toBe(400);
     });
   });
@@ -206,7 +224,9 @@ describe('API /produtos', () => {
     it('não vaza detalhes em erro inesperado (500)', async () => {
       const repoQuebrado = new InMemoryProdutoRepository();
       //lancar erro ao inves de buscar por algo
-      repoQuebrado.buscarPorId = async () => { throw new Error('senha do banco: 1234'); };
+      repoQuebrado.buscarPorId = async () => {
+        throw new Error('senha do banco: 1234');
+      };
       const appQuebrado = criarApp({
         produtoController: criarProdutoController(repoQuebrado, new FakeIdGenerator()),
       });

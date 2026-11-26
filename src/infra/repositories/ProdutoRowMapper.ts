@@ -6,7 +6,7 @@ import { Quantidade } from '../../domain/value-objects/Quantidade.js';
 export interface ProdutoRow {
   id: string;
   nome: string;
-  preco: string;          //NUMERIC chega como STRING no driver pg!
+  preco: string; //NUMERIC chega como STRING no driver pg!
   quantidade: number;
   criado_em: Date;
   atualizado_em: Date;

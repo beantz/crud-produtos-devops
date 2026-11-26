@@ -67,9 +67,7 @@ export class InMemoryProdutoRepository implements ProdutoRepository {
   async buscarPorNomeContendo(trecho: string): Promise<Produto[]> {
     const alvo = trecho.trim().toLowerCase();
 
-    return this.items.filter((p) =>
-      p.nome.toLowerCase().includes(alvo)
-    );
+    return this.items.filter((p) => p.nome.toLowerCase().includes(alvo));
   }
 }
 

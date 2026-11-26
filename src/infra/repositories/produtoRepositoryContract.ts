@@ -24,7 +24,7 @@ export function testarContratoProdutoRepository(
       const p = await repo.buscarPorId('a');
 
       expect(p?.nome).toBe('Mouse');
-      expect(p?.preco.valor).toBe(129.9);       //pega o bug do numeric como string
+      expect(p?.preco.valor).toBe(129.9); //pega o bug do numeric como string
       expect(p?.quantidade.valor).toBe(3);
     });
 
@@ -44,8 +44,9 @@ export function testarContratoProdutoRepository(
     it('rejeita id duplicado', async () => {
       await repo.adicionar(makeProduto({ id: 'a', nome: 'Uma' }));
 
-      await expect(repo.adicionar(makeProduto({ id: 'a', nome: 'Dois' })))
-        .rejects.toThrow(DuplicateProductError);
+      await expect(repo.adicionar(makeProduto({ id: 'a', nome: 'Dois' }))).rejects.toThrow(
+        DuplicateProductError,
+      );
     });
 
     it('atualiza e persiste', async () => {
@@ -59,8 +60,7 @@ export function testarContratoProdutoRepository(
     });
 
     it('atualizar lança NotFoundError se não existe', async () => {
-      await expect(repo.atualizar(makeProduto({ id: 'fantasma' })))
-        .rejects.toThrow(NotFoundError);
+      await expect(repo.atualizar(makeProduto({ id: 'fantasma' }))).rejects.toThrow(NotFoundError);
     });
 
     it('deletar remove e é idempotente', async () => {
@@ -82,7 +82,9 @@ export function testarContratoProdutoRepository(
 
     it('buscarPaginado: total vem antes do corte e a ordem é estável', async () => {
       for (let i = 1; i <= 25; i++) {
-        await repo.adicionar(makeProduto({ id: `id-${String(i).padStart(2, '0')}`, nome: `Produto ${i}` }));
+        await repo.adicionar(
+          makeProduto({ id: `id-${String(i).padStart(2, '0')}`, nome: `Produto ${i}` }),
+        );
       }
 
       const r = await repo.buscarPaginado({ limite: 10, deslocamento: 20 });
@@ -97,18 +99,24 @@ export function testarContratoProdutoRepository(
       await repo.adicionar(makeProduto({ id: 'c', nome: 'PS5', quantidade: 1 }));
 
       const r = await repo.buscarPaginado({
-        nome: 'xbox', apenasDisponiveis: true, limite: 10, deslocamento: 0,
+        nome: 'xbox',
+        apenasDisponiveis: true,
+        limite: 10,
+        deslocamento: 0,
       });
 
       expect(r.total).toBe(1);
-      expect(r.itens[0].nome).toBe('Xbox 360');
+      expect(r.itens[0]!.nome).toBe('Xbox 360');
     });
 
     it('buscarPaginado devolve 0 quando não existe', async () => {
       const r = await repo.buscarPaginado({
-        nome: 'nao-existe', apenasDisponiveis: true, limite: 10, deslocamento: 0,
+        nome: 'nao-existe',
+        apenasDisponiveis: true,
+        limite: 10,
+        deslocamento: 0,
       });
-      
+
       expect(r.total).toBe(0);
     });
 
@@ -116,7 +124,10 @@ export function testarContratoProdutoRepository(
       await repo.adicionar(makeProduto({ id: 'a', nome: 'Xbox 360', quantidade: 1 }));
 
       const r = await repo.buscarPaginado({
-        nome: 'Xbox 360', apenasDisponiveis: true, limite: 10, deslocamento: 0,
+        nome: 'Xbox 360',
+        apenasDisponiveis: true,
+        limite: 10,
+        deslocamento: 0,
       });
 
       expect(r.itens[0]).toBeInstanceOf(Produto);

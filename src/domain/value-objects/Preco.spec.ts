@@ -5,9 +5,9 @@ import { describe, it, expect } from 'vitest';
 describe('Preco', () => {
   describe('criar', () => {
     it('cria um preço válido e verifica função string', () => {
-      let preco = Preco.criar(10.5);
+      const preco = Preco.criar(10.5);
       expect(preco.valor).toBe(10.5);
-      let precoString = preco.valor.toString();
+      const precoString = preco.valor.toString();
       expect(precoString).toEqual(expect.any(String));
     });
 

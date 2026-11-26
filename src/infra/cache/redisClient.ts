@@ -5,8 +5,8 @@ export function criarRedis(url = process.env.REDIS_URL): Redis {
   if (!url) throw new Error('REDIS_URL não definida');
 
   const redis = new Redis(url, {
-    maxRetriesPerRequest: 1,       //não deixa requisição pendurada se Redis cair
-    enableOfflineQueue: false,     //sem conexão, falha na hora (em vez de enfileirar)
+    maxRetriesPerRequest: 1, //não deixa requisição pendurada se Redis cair
+    enableOfflineQueue: false, //sem conexão, falha na hora (em vez de enfileirar)
     connectTimeout: 2_000,
     retryStrategy: (tentativa) => Math.min(tentativa * 200, 2_000), //reconecta com espera crescente
   });

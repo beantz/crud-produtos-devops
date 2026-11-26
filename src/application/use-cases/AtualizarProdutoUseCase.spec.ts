@@ -18,7 +18,7 @@ describe('AtualizarProdutoUseCase', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
-  })
+  });
 
   it('atualiza o nome', async () => {
     const output = await sut.executar({ id: 'id-1', nome: 'Xbox Series X' });

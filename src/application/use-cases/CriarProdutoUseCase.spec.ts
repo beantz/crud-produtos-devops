@@ -18,7 +18,7 @@ describe('CriarProdutoUseCase', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
-  })
+  });
 
   it('cria o produto e devolve o DTO', async () => {
     const output = await sut.executar({ nome: 'Xbox Series X', preco: 4500, quantidade: 10 });
@@ -86,5 +86,5 @@ describe('CriarProdutoUseCase', () => {
       await expect(sut.executar({ nome: 'Xbox', preco: 1, quantidade: 1 })).rejects.toThrow();
       expect(espiao).not.toHaveBeenCalled();
     });
-  })
+  });
 });

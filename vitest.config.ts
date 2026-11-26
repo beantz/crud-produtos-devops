@@ -11,9 +11,9 @@ export default defineConfig({
       reporter: ['text', 'html', 'lcov'],
       include: ['src/**/*.ts'],
       exclude: [
-        'src/**/*.spec.ts', 
+        'src/**/*.spec.ts',
         'src/shared/testing/**',
-        'src/**/index.ts',             
+        'src/**/index.ts',
         'src/main/server.ts',
         'src/application/interfaces/**',
         'src/**/*DTO.ts',

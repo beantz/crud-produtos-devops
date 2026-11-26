@@ -14,13 +14,15 @@ async function medir(nome: string, fn: () => Promise<unknown>) {
   for (let i = 0; i < REQUISICOES; i++) {
     const t0 = performance.now(); //guarda o tempo de inicio
     await fn(); //funcao a ser executada, vai ser passsada na chamada
-    tempos.push(performance.now() - t0); //tempo exato da execução 
+    tempos.push(performance.now() - t0); //tempo exato da execução
   }
   tempos.sort((a, b) => a - b); //ordena do menor pro maior
 
   const pct = (p: number) => tempos[Math.floor(tempos.length * p)].toFixed(3); //multiplica total de requisições pela porcentagem e pega os 95% mais rapidos
   const media = (tempos.reduce((a, b) => a + b, 0) / tempos.length).toFixed(3); //pega todos os valor e tira a media, fixed formata  pra exibir so 3 casas decimais
-  console.log(`${nome.padEnd(28)} média ${media}ms | p50 ${pct(0.5)}ms | p95 ${pct(0.95)}ms | p99 ${pct(0.99)}ms`);
+  console.log(
+    `${nome.padEnd(28)} média ${media}ms | p50 ${pct(0.5)}ms | p95 ${pct(0.95)}ms | p99 ${pct(0.99)}ms`,
+  );
 }
 
 async function main() {
@@ -53,4 +55,7 @@ async function main() {
   await redis.quit();
 }
 
-main().catch((e) => { console.error(e); process.exit(1); }); //se der erro, pega e exibe e encerra o programa
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+}); //se der erro, pega e exibe e encerra o programa

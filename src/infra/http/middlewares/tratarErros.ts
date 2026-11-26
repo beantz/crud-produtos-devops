@@ -47,7 +47,10 @@ function traduzir(err: unknown): { status: number; corpo: Corpo } {
   //json malformado no body (erro do express.json middleware q verifica o json)
   //body in (err as obj) verifica se possui um body dentro do obj err
   if (err instanceof SyntaxError && 'body' in (err as object)) {
-    return { status: 400, corpo: { erro: { codigo: 'JSON_INVALIDO', mensagem: 'Corpo não é um JSON válido' } } };
+    return {
+      status: 400,
+      corpo: { erro: { codigo: 'JSON_INVALIDO', mensagem: 'Corpo não é um JSON válido' } },
+    };
   }
   return {
     status: 500,

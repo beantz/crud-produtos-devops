@@ -1,4 +1,4 @@
-import 'dotenv/config'; //carrega as variaveis de amb 
+import 'dotenv/config'; //carrega as variaveis de amb
 import { criarPool } from '../infra/database/pool.js';
 import { PostgresProdutoRepository } from '../infra/repositories/PostgresProdutoRepository.js';
 import { UuidGenerator } from '../infra/id/UuidGenerator.js';

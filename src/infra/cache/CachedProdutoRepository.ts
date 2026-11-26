@@ -1,4 +1,8 @@
-import type { ProdutoRepository, OpcoesListagem, FiltroListagem, ResultadoListagem} from '../../application/interfaces/ProdutoRepository.js';
+import type {
+  ProdutoRepository,
+  FiltroListagem,
+  ResultadoListagem,
+} from '../../application/interfaces/ProdutoRepository.js';
 import type { CacheStore } from '../../application/interfaces/CacheStore.js';
 import type { Produto } from '../../domain/entities/Produto.js';
 import { ProdutoCacheMapper, type ProdutoCache } from './ProdutoCacheMapper.js';
@@ -34,9 +38,13 @@ export class CachedProdutoRepository implements ProdutoRepository {
 
     const produto = await this.origem.buscarPorId(id); //MISS erro, buscar no banco
     if (produto) {
-      await this.cache.guardar(chave, JSON.stringify(ProdutoCacheMapper.serializar(produto)), this.ttlProduto);
+      await this.cache.guardar(
+        chave,
+        JSON.stringify(ProdutoCacheMapper.serializar(produto)),
+        this.ttlProduto,
+      );
     }
-    return produto; 
+    return produto;
   }
 
   async buscarPaginado(f: FiltroListagem): Promise<ResultadoListagem> {
@@ -54,7 +62,10 @@ export class CachedProdutoRepository implements ProdutoRepository {
     const resultado = await this.origem.buscarPaginado(f);
     await this.cache.guardar(
       chave,
-      JSON.stringify({ total: resultado.total, itens: resultado.itens.map(ProdutoCacheMapper.serializar) }),
+      JSON.stringify({
+        total: resultado.total,
+        itens: resultado.itens.map(ProdutoCacheMapper.serializar),
+      }),
       this.ttlLista,
     );
     return resultado;

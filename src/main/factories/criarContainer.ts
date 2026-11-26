@@ -9,7 +9,10 @@ import { DeletarProdutoUseCase } from '../../application/use-cases/DeletarProdut
 import { ProdutoController } from '../../infra/http/controllers/ProdutoController.js';
 
 /*recebe as dependências de INFRA já escolhidas e monta o resto*/
-export function criarProdutoController(repo: ProdutoRepository, ids: IdGenerator): ProdutoController {
+export function criarProdutoController(
+  repo: ProdutoRepository,
+  ids: IdGenerator,
+): ProdutoController {
   return new ProdutoController({
     criar: new CriarProdutoUseCase(repo, ids),
     buscar: new BuscarProdutoPorIdUseCase(repo),

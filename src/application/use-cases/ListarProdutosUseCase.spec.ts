@@ -15,7 +15,7 @@ describe('ListarProdutosUseCase', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
-  })
+  });
 
   async function popular(qtd: number) {
     for (let i = 1; i <= qtd; i++) {
@@ -169,6 +169,6 @@ describe('ListarProdutosUseCase', () => {
     it('propaga o erro', async () => {
       vi.spyOn(repo, 'buscarPaginado').mockRejectedValue(new Error('banco fora'));
       await expect(sut.executar()).rejects.toThrow('banco fora');
-    })
-  }) 
+    });
+  });
 });

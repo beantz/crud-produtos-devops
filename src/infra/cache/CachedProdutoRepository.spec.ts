@@ -68,7 +68,7 @@ describe('CachedProdutoRepository', () => {
 
   describe('invalidação', () => {
     it('atualizar apaga o cache do produto e a próxima leitura vê o dado novo', async () => {
-      await repo.buscarPorId('a'); 
+      await repo.buscarPorId('a');
       const p = (await origem.buscarPorId('a'))!;
       p.alterarPreco(999);
 
@@ -88,7 +88,7 @@ describe('CachedProdutoRepository', () => {
 
     it('adicionar invalida as listagens (nova versão)', async () => {
       const filtro = { limite: 10, deslocamento: 0 };
-      expect((await repo.buscarPaginado(filtro)).total).toBe(1); 
+      expect((await repo.buscarPaginado(filtro)).total).toBe(1);
 
       await repo.adicionar(makeProduto({ id: 'b', nome: 'Teclado' }));
 

@@ -25,10 +25,7 @@ export class ProdutoController {
   criar = async (req: ReqValidada, res: Response): Promise<void> => {
     //validado! serve pra enganar o typs de q validade esta preenchido
     const output = await this.uc.criar.executar(req.validado!.body);
-    res
-      .status(201)
-      .location(`/produtos/${output.id}`)
-      .json(output);
+    res.status(201).location(`/produtos/${output.id}`).json(output);
   };
 
   buscar = async (req: ReqValidada, res: Response): Promise<void> => {

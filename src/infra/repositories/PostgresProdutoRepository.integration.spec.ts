@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach } from 'vitest';
+import { afterAll, beforeAll } from 'vitest';
 import type { Pool } from 'pg';
 import { criarPool } from '../database/pool.js';
 import { PostgresProdutoRepository } from './PostgresProdutoRepository.js';
@@ -17,6 +17,6 @@ afterAll(async () => {
 });
 
 testarContratoProdutoRepository('PostgresProdutoRepository', async () => {
-  await pool.query('TRUNCATE TABLE produtos');   //esvazia as tabelas e os ids começam por 1 de novo
+  await pool.query('TRUNCATE TABLE produtos'); //esvazia as tabelas e os ids começam por 1 de novo
   return new PostgresProdutoRepository(pool);
 });

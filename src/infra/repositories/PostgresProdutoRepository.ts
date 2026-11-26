@@ -1,5 +1,8 @@
 import type { Pool, PoolClient } from 'pg';
-import type { ProdutoRepository, OpcoesListagem, FiltroListagem, ResultadoListagem,
+import type {
+  ProdutoRepository,
+  FiltroListagem,
+  ResultadoListagem,
 } from '../../application/interfaces/ProdutoRepository.js';
 import { Produto } from '../../domain/entities/Produto.js';
 import { DuplicateProductError } from '../../domain/errors/DuplicateProductError.js';
@@ -19,10 +22,14 @@ export class PostgresProdutoRepository implements ProdutoRepository {
   async adicionar(produto: Produto): Promise<void> {
     const c = ProdutoRowMapper.paraColunas(produto);
     try {
-      await this.db.query(
-        `INSERT INTO produtos (${COLUNAS}) VALUES ($1, $2, $3, $4, $5, $6)`,
-        [c.id, c.nome, c.preco, c.quantidade, c.criado_em, c.atualizado_em],
-      );
+      await this.db.query(`INSERT INTO produtos (${COLUNAS}) VALUES ($1, $2, $3, $4, $5, $6)`, [
+        c.id,
+        c.nome,
+        c.preco,
+        c.quantidade,
+        c.criado_em,
+        c.atualizado_em,
+      ]);
     } catch (e) {
       throw this.traduzirErro(e, produto);
     }
@@ -49,15 +56,19 @@ export class PostgresProdutoRepository implements ProdutoRepository {
   }
 
   async buscarPorId(id: string): Promise<Produto | null> {
-    const r = await this.db.query<ProdutoRow>(
-      `SELECT ${COLUNAS} FROM produtos WHERE id = $1`,
-      [id],
-    );
+    const r = await this.db.query<ProdutoRow>(`SELECT ${COLUNAS} FROM produtos WHERE id = $1`, [
+      id,
+    ]);
     // se achou retorna de pg para entity com vo
     return r.rows[0] ? ProdutoRowMapper.paraEntity(r.rows[0]) : null;
   }
 
-  async listar({ limite, deslocamento = 0 }: OpcoesListagem = {}): Promise<Produto[]> {
+  async listar({
+    nome = '',
+    apenasDisponiveis = false,
+    limite,
+    deslocamento = 0,
+  }: FiltroListagem): Promise<Produto[]> {
     const r = await this.db.query<ProdutoRow>(
       `SELECT ${COLUNAS} FROM produtos
         ORDER BY criado_em, id
@@ -97,7 +108,7 @@ export class PostgresProdutoRepository implements ProdutoRepository {
     );
 
     return {
-      total: Number(total.rows[0].total), //COUNT(*) também chega como string (bigint)
+      total: Number(total.rows[0]?.total ?? 0), //COUNT(*) também chega como string (bigint)
       itens: itens.rows.map(ProdutoRowMapper.paraEntity),
     };
   }

@@ -16,7 +16,7 @@ export class PostgresUnitOfWork implements UnitOfWork {
       await client.query('BEGIN'); //iniciar transacao
       const resultado = await trabalho({
         produtos: new PostgresProdutoRepository(client), //mesma conexão em tudo, todas as queries que o repositório fizer
-      });                                                // durante esse trabalho usarão a mesma transação.
+      }); // durante esse trabalho usarão a mesma transação.
       await client.query('COMMIT'); //salva no banco de forma definida
       return resultado;
     } catch (e) {

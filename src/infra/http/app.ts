@@ -11,13 +11,13 @@ export interface Dependencias {
 export function criarApp(deps: Dependencias): Express {
   const app = express();
 
-  app.disable('x-powered-by')
+  app.disable('x-powered-by');
   app.use(express.json({ limit: '100kb' })); //limita tamanho do JSON
 
   app.get('/health', (_req, res) => res.json({ status: 'ok' }));
   app.use('/produtos', criarRotasProduto(deps.produtoController));
 
-  app.use(rotaNaoEncontrada); 
+  app.use(rotaNaoEncontrada);
   app.use(tratarErros);
 
   return app;
